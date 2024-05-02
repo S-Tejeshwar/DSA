@@ -1,9 +1,12 @@
 package Recursion;
 
+import java.awt.*;
+
 public class Maze {
 
     public static void main(String[] args) {
      System.out.println(count(2,2));
+     path("",2,2);
     }
 
     static int count(int r, int c) {
@@ -13,5 +16,20 @@ public class Maze {
         int left = count(r-1, c);
         int right = count(r, c-1);
         return right + left;
+    }
+
+    static void path(String p, int r, int c) {
+        if ( r == 1 && c == 1) {
+            System.out.println(p);
+            return;
+        }
+
+        if (r > 1) {
+            path(p+"D",r-1,c);
+        }
+
+        if (c > 1) {
+            path(p+"R", r, c-1);
+        }
     }
 }
