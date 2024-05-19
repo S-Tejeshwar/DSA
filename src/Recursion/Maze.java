@@ -1,6 +1,7 @@
 package Recursion;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public class Maze {
 
@@ -15,7 +16,8 @@ public class Maze {
 //     path("",2,2);
 //     diagonalpath("",3,3);
 //     diagonalpathWithObstacles("",0,0,maze);
-       diagonalpathBacktracking("",0,0,maze);
+//       diagonalpathBacktracking("",0,0,maze);
+       diagonalpathBacktrackingWithPath("",0,0,maze,new int[maze.length][maze[0].length],1);
     }
 
     static int count(int r, int c) {
@@ -115,5 +117,45 @@ public class Maze {
             diagonalpathBacktracking(p+"Left ", r,c-1,maze);
         }
         maze[r][c] = true;
+    }
+
+    static void diagonalpathBacktrackingWithPath(String p, int r, int c, boolean maze[][], int path[][], int level) {
+        if ( r == maze.length-1 && c == maze[0].length-1) {
+            path[r][c] = level;
+            for(int[] row: path) {
+                System.out.println(Arrays.toString(row));
+            }
+            System.out.println("----------------------");
+            path[r][c] = 0;
+            return;
+        }
+
+        if (!maze[r][c]) {
+            return;
+        }
+
+        path[r][c] = level;
+        maze[r][c] = false;
+        if (r< maze.length-1 && c < maze[0].length-1) {
+            diagonalpathBacktrackingWithPath(p+"Diagonal ", r+1, c+1, maze, path, level+1);
+        }
+
+        if (r < maze.length-1) {
+            diagonalpathBacktrackingWithPath(p+"Down ",r+1,c, maze, path, level+1);
+        }
+
+        if (c < maze[0].length-1) {
+            diagonalpathBacktrackingWithPath(p+"Right ", r, c+1,maze, path, level+1);
+        }
+
+        if ( r > 0) {
+            diagonalpathBacktrackingWithPath(p+"Up ", r-1,c,maze, path, level+1);
+        }
+
+        if ( c > 0) {
+            diagonalpathBacktrackingWithPath(p+"Left ", r,c-1,maze, path, level+1);
+        }
+        maze[r][c] = true;
+        path[r][c] = 0;
     }
 }
